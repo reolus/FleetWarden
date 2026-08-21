@@ -1,0 +1,10 @@
+{
+  "product": "FleetWarden",
+  "publisher": "McCartney Systems, LLC",
+  "version": "0.36.0-fleet.2",
+  "milestone": "Assignments & Custody",
+  "branch": "release/fieldwarden-fleet",
+  "source_baseline": "FleetWarden 0.35.0-fleet.1",
+  "database_baseline": "servicewarden demo schema + migrate_phase35_0.sql",
+  "released": "2026-08-21"
+}
