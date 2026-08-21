@@ -1,5 +1,20 @@
 # FleetWarden Changelog
 
+## 0.36.2-fleet.2 - 2026-08-21
+
+### Fixed
+- Removed explicit `ON DELETE` referential actions from `asset_assignments` target foreign keys used by `chk_asset_assignments_target`, resolving MySQL error 3823.
+- Target foreign keys now use MySQL's default restrictive behavior, preserving assignment-history targets instead of nulling them.
+- Added regression coverage for MySQL's prohibition on referential actions involving columns used by `CHECK` constraints.
+- Includes the 0.36.1 Phase 35 resumable migration compatibility fix.
+
+## 0.36.1-fleet.2 - 2026-08-21
+
+### Fixed
+- Replaced unsupported `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` syntax in `migrate_phase35_0.sql` with MySQL-compatible `INFORMATION_SCHEMA` guards and prepared DDL.
+- Phase 35 can now resume safely after a partially committed failed run; previously created tables and columns are detected and retained.
+- Added regression coverage preventing unsupported conditional `ALTER TABLE` syntax from returning to active FleetWarden migrations.
+
 ## 0.36.0-fleet.2 - 2026-08-21
 
 ### Added
