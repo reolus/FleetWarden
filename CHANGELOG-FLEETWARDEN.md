@@ -1,5 +1,52 @@
 # FleetWarden Changelog
 
+## 0.38.0-fleet.3 - 2026-08-21
+
+### Added
+- Reusable preventive-maintenance templates and checklist tasks.
+- Per-asset maintenance schedules with ANY/ALL trigger logic.
+- Calendar, odometer, engine-hour, and usage triggers with due-soon lead thresholds.
+- Maintenance due evaluator and `flock`-protected background worker.
+- Automatic non-duplicating work-order generation for due schedules.
+- Work-order checklist task state and completion tracking.
+- Schedule baseline reset after completed preventive maintenance.
+- `maintenance.due` notification event integration.
+- Preventive Maintenance dashboard, template editor, schedule assignment, trigger management, and manual evaluation.
+- Preventive-maintenance worker status in System Health.
+- Optional Brighthaven preventive-maintenance demo seed.
+
+### Changed
+- Maintenance work orders now use canonical `asset_id` while retaining legacy vehicle/inventory compatibility fields.
+- Fleet Dashboard service indicators use the preventive-maintenance engine rather than `vehicles.next_service_date`.
+- Work orders identify whether they were created manually or by a maintenance schedule.
+
+### Migration
+- Adds `migrate_phase38_0.sql`.
+- Migration uses guarded `INFORMATION_SCHEMA` column additions and does not use `ADD COLUMN IF NOT EXISTS`.
+- No new CHECK constraints are introduced.
+
+## 0.37.0-fleet.2 - 2026-08-21
+
+### Removed
+- Stripe runtime integration, configuration, health status, payment service/controller, and webhook route.
+- Active FieldWarden customer, estimate, invoice/payment, service-job, marketing, scheduling, accounting, QuickBooks, collections, service catalog, and customer API routes.
+- Legacy equipment-custody write routes and archived pre-0.33 front controllers.
+
+### Changed
+- Rebuilt the application front controller as an explicit FleetWarden-only route surface.
+- Global search now searches fleet assets, vehicles, equipment, work orders, people, departments, and fleet locations.
+- Workforce management now focuses on crews, default vehicles, operators, skills, and qualifications.
+- Optional integrations shown in System Health are limited to integrations actually retained by FleetWarden.
+- Fresh environment example uses `fleetwarden` as the default database name.
+
+### Included fixes
+- Phase 35 resumable MySQL migration compatibility fix.
+- Phase 36 MySQL CHECK/FK compatibility fix.
+- Portal sidebar JavaScript/collapse/accordion fix.
+
+### Database
+No destructive cleanup is performed. Historical FieldWarden business tables remain available for rollback/archive purposes but are no longer exposed by the FleetWarden runtime.
+
 ## 0.36.2-fleet.2 - 2026-08-21
 
 ### Fixed
@@ -24,63 +71,10 @@
 - Permanent, temporary, checkout, mounted, home, primary, pool, and storage assignment modes.
 - Expected-return tracking and overdue-return dashboard indicators.
 - Asset assignment/transfer/return portal with filters and history.
-- Vehicle and equipment detail views with current assignments and assignment history.
-- Equipment-on-vehicle visibility and counts.
 - Canonical `asset_events` timeline and compatibility bridge from legacy `asset_activity`.
-- FleetWarden mobile `My Fleet` dashboard for assigned assets and returns.
-- Mobile QR scanner using the browser BarcodeDetector API where supported, with safe fallback.
-- QR scan audit event and direct asset detail experience.
-- Assignment permissions in FleetWarden RBAC schema.
-- Assignment System Health check.
-- Optional Brighthaven Milestone 2 demo seed for serialized equipment and assignment scenarios.
-
-### Changed
-- Vehicle department, location, and operator edits now create/close canonical assignments rather than silently overwriting history.
-- Equipment department and location edits now preserve assignment history.
-- Fleet and equipment lists display canonical current placement/custodian/operator state.
-- Fleet Dashboard now uses canonical asset events and surfaces equipment placement/overdue returns.
-- Primary navigation now exposes Assignments and My Fleet, and removes legacy custody/history navigation.
-- Mobile shell rebranded from the inherited ServiceOS field workflow to FleetWarden.
-
-### Fixed
-- Legacy asset activity now bridges into canonical FleetWarden asset events when a matching canonical asset exists.
-- New custody records can no longer be created in the parallel legacy `equipment_custody` subsystem.
-- Serialized equipment can be assigned directly to a vehicle, location, crew, department, or user without requiring an arbitrary employee custodian.
-- Migration CLI no longer emits ineffective global `use PDO` / `use Throwable` warnings.
-- Current placement, custody, and ownership each have independent active slots, allowing an asset to be mounted to a vehicle while also being accountable to a user or department.
-
-### Migration
-- Compatible legacy equipment-custody rows are imported only when their inventory item was already promoted to a serialized `equipment_asset`.
-- Legacy vehicle department/location/operator values are imported as canonical current assignments.
-- Existing `equipment_custody`, vehicle compatibility columns, and `asset_activity` are retained for rollback/read compatibility; new FleetWarden writes use the canonical assignment/event model.
-
-### Deferred
-Preventive-maintenance templates/triggers and maintenance scheduling remain Milestone 3. Warranties, fleet-native inspections, calendar abstraction, push delivery, fuel/EV, reservations, telematics, advanced RBAC runtime cutover, and analytics remain later milestones.
+- FleetWarden mobile `My Fleet` dashboard and QR scanner foundation.
 
 ## 0.35.0-fleet.1 - 2026-08-21
 
 ### Added
-- Canonical serialized `assets` model.
-- Serialized `equipment_assets` separate from stock inventory.
-- Asset meter history for odometer, engine hours, and usage.
-- Normalized departments and fleet locations.
-- FleetWarden RBAC schema foundation and seeded fleet roles/permissions.
-- Fleet dashboard.
-- Fleet asset list/detail pages.
-- Expanded vehicle data and editing.
-- Serialized equipment create/edit UI.
-- Meter-reading entry and compatibility update to legacy vehicle odometer.
-- Canonical QR label/scanning behavior.
-- FleetWarden core schema System Health check.
-
-### Changed
-- Application root now presents FleetWarden portal sign-in instead of the commercial product site.
-- Primary portal navigation is fleet-focused.
-- Product metadata updated for FleetWarden by McCartney Systems, LLC.
-- Existing vehicle records are linked to canonical assets without deleting legacy data.
-
-### Fixed
-- Mobile inspections now use the actual generic inspection entity schema.
-- Legacy equipment maintenance activity no longer disappears because of asset-type naming mismatch.
-- Duplicate AI System Health check removed.
-- Authenticated portal no longer embeds Google Analytics.
+- Canonical serialized asset model, equipment assets, meter history, departments/locations, FleetWarden RBAC foundation, fleet dashboard, expanded vehicles, QR routing, and FleetWarden portal shell.
