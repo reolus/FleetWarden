@@ -1,10 +1,11 @@
 {
   "product": "FleetWarden",
   "publisher": "McCartney Systems, LLC",
-  "version": "0.36.2-fleet.2",
-  "milestone": "Assignments & Custody - MySQL Constraint Hotfix",
+  "version": "0.38.0-fleet.3",
+  "milestone": "Preventive Maintenance",
   "branch": "release/fieldwarden-fleet",
-  "source_baseline": "FleetWarden 0.36.1-fleet.2",
-  "database_baseline": "FleetWarden 0.35/0.36 schema; corrected MySQL-compatible Phase 35 and Phase 36 migrations",
+  "source_baseline": "FleetWarden 0.37.0-fleet.2 cleanup/hardening baseline",
+  "database_baseline": "FleetWarden schema through migrate_phase36_0.sql",
+  "migration": "migrate_phase38_0.sql",
   "released": "2026-08-21"
 }
