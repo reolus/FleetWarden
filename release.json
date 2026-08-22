@@ -1,11 +1,10 @@
 {
   "product": "FleetWarden",
   "publisher": "McCartney Systems, LLC",
-  "version": "0.38.0-fleet.3",
-  "milestone": "Preventive Maintenance",
+  "version": "0.39.0-fleet.4",
+  "milestone": "Fleet Inspections & Corrective Actions",
   "branch": "release/fieldwarden-fleet",
-  "source_baseline": "FleetWarden 0.37.0-fleet.2 cleanup/hardening baseline",
-  "database_baseline": "FleetWarden schema through migrate_phase36_0.sql",
-  "migration": "migrate_phase38_0.sql",
+  "source_baseline": "FleetWarden 0.38.0-fleet.3",
+  "database_baseline": "FleetWarden through migrate_phase38_0.sql",
   "released": "2026-08-21"
 }
