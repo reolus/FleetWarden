@@ -1,5 +1,38 @@
 # FleetWarden Changelog
 
+## 0.39.0-fleet.4 - 2026-08-21
+
+### Added
+- Fleet-native inspection execution linked to canonical `assets`.
+- Reusable inspection kinds for pre-trip, post-trip, safety, DOT/regulatory, equipment, and general inspections.
+- Pass / Fail / N/A checklist evaluation with required-item enforcement.
+- Per-item failure severity, required failure photos, explicit out-of-service behavior, and corrective-work-order behavior.
+- Typed operator acknowledgment and captured signature support.
+- Recurring, pre-trip, and post-trip inspection schedules.
+- `inspection-due.php` background evaluator with `flock` concurrency protection and worker-run history.
+- Normalized `inspection_defects` records with severity, status, resolution notes, and corrective-maintenance linkage.
+- Automatic one-work-order-per-failed-inspection corrective maintenance generation.
+- Automatic out-of-service transitions for unsafe inspection failures.
+- Defect resolution with guarded return-to-service behavior.
+- Mobile/PWA asset inspection selection and execution from My Fleet.
+- QR scans now land directly on the asset inspection section.
+- Fleet dashboard inspection-due and open-defect indicators.
+- Fleet inspection worker status in System Health.
+- FleetWarden-branded asset inspection PDF packets.
+- Optional Brighthaven Milestone 4 demo inspection templates and schedules.
+
+### Changed
+- Existing generic FieldWarden inspection tables are extended rather than replaced, preserving historical inspections, photos, signatures, and packet archives.
+- Asset detail pages now show applicable inspection templates, schedules, recent inspections, and open defects.
+- Maintenance & Compliance navigation now includes Fleet Inspections, Inspection Templates, and Inspection Defects.
+
+### Migration
+- Adds `migrate_phase39_0.sql`.
+- Uses guarded `INFORMATION_SCHEMA` column additions for resumable MySQL-compatible DDL.
+- Does not use `ADD COLUMN IF NOT EXISTS`.
+- Introduces no new `CHECK` constraints, avoiding the MySQL CHECK/FK referential-action conflict encountered in Milestone 2.
+- Historical vehicle/equipment inspections are linked to canonical assets where the relationship can be reconciled safely.
+
 ## 0.38.0-fleet.3 - 2026-08-21
 
 ### Added
