@@ -1,11 +1,11 @@
 {
   "product": "FleetWarden",
   "publisher": "McCartney Systems, LLC",
-  "version": "0.40.0-fleet.5",
-  "milestone": "Warranty, Recall & Compliance",
+  "version": "0.41.0-fleet.6",
+  "milestone": "Calendar, Notifications & Operational Scheduling",
   "branch": "release/fieldwarden-fleet",
-  "source_baseline": "FleetWarden 0.39.2-fleet.4",
-  "database_baseline": "FleetWarden schema through migrate_phase39_1.sql",
-  "migration": "migrate_phase40_0.sql",
+  "source_baseline": "FleetWarden 0.40.0-fleet.5",
+  "database_baseline": "FleetWarden schema through migrate_phase40_0.sql",
+  "migration": "migrate_phase41_0.sql",
   "released": "2026-08-22"
 }
