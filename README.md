@@ -2,9 +2,9 @@
 
 FleetWarden is a fleet and equipment management platform by McCartney Systems, LLC.
 
-Current release: **0.39.0-fleet.4 - Fleet Inspections & Corrective Actions**
+Current release: **0.40.0-fleet.5 - Warranty, Recall & Compliance**
 
-Milestone 4 extends the existing inspection foundation into a FleetWarden-native asset inspection system. It includes reusable vehicle/equipment templates, Pass/Fail/N/A evaluation, pre-trip/post-trip and recurring schedules, mobile operator workflows, inspection photos and signatures, defect severity, automatic out-of-service decisions, corrective maintenance work-order generation, defect resolution, notifications, QR-assisted inspection access, dashboard status, PDF packets, and a background inspection-due evaluator.
+This cumulative release adds date/meter-based warranty tracking, warranty claims, registration/insurance/permit and other compliance records, recall management with corrective work orders, organization-defined compliance rules, protected compliance documents, dashboard/asset-profile integration, notifications, and a daily compliance evaluator. It includes all FleetWarden Milestones 1-4 plus the 0.39 dashboard and vehicle-profile improvements.
 
 ## Upgrade
 
@@ -13,19 +13,23 @@ cd /var/www/fleetwarden
 php scripts/migrate.php status
 php scripts/migrate.php migrate
 php scripts/migrate.php status
+php tests/phase40_0_regression.php
+php tests/phase39_1_regression.php
 php tests/phase39_0_regression.php
 php tests/phase38_0_regression.php
 php tests/route_validation.php
 php tests/smoke.php
-php scripts/inspection-due.php
+php scripts/compliance-due.php
 ```
 
-Recommended cron:
+## Core FleetWarden workers
 
 ```cron
-*/15 * * * * cd /var/www/fleetwarden && /usr/bin/php scripts/inspection-due.php >> storage/logs/inspection-due.log 2>&1
+2-59/15 * * * * www-data cd /var/www/fleetwarden && /usr/bin/php scripts/maintenance-due.php >> storage/logs/maintenance-due.log 2>&1
+7-59/15 * * * * www-data cd /var/www/fleetwarden && /usr/bin/php scripts/inspection-due.php >> storage/logs/inspection-due.log 2>&1
+40 6 * * * www-data cd /var/www/fleetwarden && /usr/bin/php scripts/compliance-due.php >> storage/logs/compliance-due.log 2>&1
 ```
 
-For the fictional Brighthaven demo only, load `database/demo/seed_fleetwarden_m4_brighthaven.sql` after the migration.
+Compliance attachments are stored below `storage/uploads/compliance`; ensure the FleetWarden PHP/Apache user can write to `storage`.
 
-See `docs/FLEETWARDEN_M4_UPGRADE.md`, `docs/FLEETWARDEN_M4_ARCHITECTURE.md`, and `docs/FLEETWARDEN_M4_MANIFEST.md`.
+See `docs/FLEETWARDEN_M5_ARCHITECTURE.md`, `docs/FLEETWARDEN_M5_UPGRADE.md`, and `docs/FLEETWARDEN_M5_MANIFEST.md`.
