@@ -1,33 +1,22 @@
 # FleetWarden
 
-FleetWarden is a fleet and equipment management platform by McCartney Systems, LLC, built from the FieldWarden application platform.
+FleetWarden is a fleet and equipment management platform by McCartney Systems, LLC.
 
-Current release branch: `release/fieldwarden-fleet`
+Current release: **0.38.0-fleet.3 - Preventive Maintenance**
 
-Current milestone: **0.36.2-fleet.2 - Assignments & Custody (MySQL constraint hotfix)**
+This release includes the 0.37 cleanup/hardening work plus Milestone 3 preventive maintenance: reusable maintenance templates, calendar/odometer/engine-hour/usage triggers, due evaluation, automatic work-order generation, service checklists, completion baseline resets, notifications, worker health, and fleet dashboard integration.
 
-Milestone 2 adds canonical assignment history for vehicles and serialized equipment, vehicle/equipment/user/location/department/crew targets, transfers and returns, overdue custody tracking, FleetWarden mobile `My Fleet`, QR scanning, canonical asset events, and assignment health monitoring.
-
-## 0.36.2 hotfix
-
-This release fixes MySQL error 3823 in `migrate_phase36_0.sql`. Columns used by `chk_asset_assignments_target` no longer declare explicit `ON DELETE`/`ON UPDATE` referential actions. MySQL therefore applies its default restrictive behavior while retaining the database-level target validation check.
-
-It also includes the 0.36.1 Phase 35 resumable migration compatibility fix.
-
-## Upgrade / recovery
-
-Back up the application and database, deploy the 0.36.2 release files, then run:
+## Upgrade
 
 ```bash
+cd /var/www/fleetwarden
 php scripts/migrate.php status
 php scripts/migrate.php migrate
 php scripts/migrate.php status
-php tests/phase36_2_regression.php
-php tests/phase36_1_regression.php
-php tests/phase36_0_regression.php
-php tests/phase35_0_regression.php
+php tests/phase38_0_regression.php
 php tests/route_validation.php
 php tests/smoke.php
+php scripts/maintenance-due.php
 ```
 
-See `docs/FLEETWARDEN_0_36_2_HOTFIX.md` for recovery details.
+See `docs/FLEETWARDEN_0_37_CLEANUP.md`, `docs/FLEETWARDEN_M3_ARCHITECTURE.md`, and `docs/FLEETWARDEN_M3_UPGRADE.md`.
